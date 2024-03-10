@@ -17,13 +17,15 @@ class RecipeController extends AbstractController
         ]);
     }
 
-    #[Route('/recette/{slug}-{id}', name: 'app_recipe_show', requirements: [ 'id' => '\d+', 'slug' => '[a-z0-9-]+'])]
-    public function show(Request $request): Response
+    #[Route('/recette/{slug}/{id}', name: 'app_recipe_show', requirements: [ 'id' => '\d+', 'slug' => '[a-z0-9-]+'])]
+    public function show(Request $request, string $slug, int $id): Response
     {
 
-        dd($request->attributes->get("slug"), $request->attributes->get("id"));
-        return $this->render('recipe/index.html.twig', [
-            'controller_name' => 'RecipeController',
+        dump($request->attributes->get("slug"), $request->attributes->get("id"));
+
+        return $this->render('recipe/show.html.twig', [
+            'slug' => $slug,
+            'id' => $id,
         ]);
     }
 }
