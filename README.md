@@ -4,7 +4,7 @@
 
 1) Clonez le projet
 
-```ps
+```bash
 git clone https://github.com/jonas18121/template_project.git
 ```
 
@@ -12,7 +12,7 @@ git clone https://github.com/jonas18121/template_project.git
 
 3) Supprimez le fichier `.git` et faire un git init
 
-```ps
+```bash
 git init
 ```
 
@@ -26,25 +26,25 @@ Exemple pour Symfony 7.0 il faut :
 
 5) Créez un dossier app à la racine du projet, s'il n'existe pas
 
-```ps
+```bash
 mkdir app
 ```
 
 6) Construire le projet avec `docker-build` qui représente `docker-compose build`
 
-```ps
+```bash
 make docker-build
 ```
 
 7) Créez et démarrez les contenaires docker (représente `docker-compose up -d`)
 
-```ps
+```bash
 make run
 ```
 
 8) (Facultative) Pour arreter et supprimer les contenaires docker (représente `docker-compose down`)
 
-```ps
+```bash
 make down
 ```
 
@@ -52,13 +52,13 @@ make down
 
 1) La commande ci-dessous permet d'entrez dans le contenaire PHP pour être dans le répertoire `/var/www/app` du contenaire PHP
 
-```ps
+```bash
 make exec-cli-app
 ```
 
 2) Créez le projet Symfony à partir du répertoire `/var/www/app`
 
-```ps
+```bash
 composer create-project symfony/skeleton:"7.0.*" my_project_directory
 ```
 
@@ -78,7 +78,7 @@ Access to the project's phpmyadmin locally on : http://127.0.0.1:8080/
 
 ### Premier commit sur votre le projet que vous avez préalablement créer
 
-```ps
+```bash
 git add .
 
 git commit -m "First commit"
@@ -90,4 +90,31 @@ git remote add https://github.com/your_user12121/your_project_name.git
 git remote  -v
 
 git push -u origine master
+```
+
+### Creer une base de données
+
+1. Dans le fichier `.env` renseignez 
+
+    - le `user`, 
+    - le `mot de passe`, 
+    - le `nom de base de données` 
+    - et utiliser le `nom de container MYSQL` à la place de `name_container_mysql`
+
+```bash
+###> doctrine/doctrine-bundle ###
+# Format described at https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url
+# IMPORTANT: You MUST configure your server version, either here or in config/packages/doctrine.yaml
+#
+# DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
+DATABASE_URL="mysql://name_user:password@name_container_mysql:3306/db_name?serverVersion=8.0.32&charset=utf8mb4"
+# DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+# DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
+###< doctrine/doctrine-bundle ###
+```
+
+2. faite la commande ci-dessous pour creer la base de données
+
+```bash
+php bin/console doctrine:database:create
 ```
