@@ -91,3 +91,30 @@ git remote  -v
 
 git push -u origine master
 ```
+
+### Creer une base de données
+
+1. Dans le fichier `.env` renseignez 
+
+    - le `user`, 
+    - le `mot de passe`, 
+    - le `nom de base de données` 
+    - et utiliser le `nom de container MYSQL` à la place de `name_container_mysql`
+
+```ps
+###> doctrine/doctrine-bundle ###
+# Format described at https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url
+# IMPORTANT: You MUST configure your server version, either here or in config/packages/doctrine.yaml
+#
+# DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
+DATABASE_URL="mysql://name_user:password@name_container_mysql:3306/db_name?serverVersion=8.0.32&charset=utf8mb4"
+# DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+# DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
+###< doctrine/doctrine-bundle ###
+```
+
+2. faite la commande ci-dessous pour creer la base de données
+
+```ps
+php bin/console doctrine:database:create
+```
