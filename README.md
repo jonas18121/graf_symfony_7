@@ -101,7 +101,7 @@ git push -u origine master
     - le `nom de base de données` 
     - et utiliser le `nom de container MYSQL` à la place de `name_container_mysql`
 
-```ps
+```
 ###> doctrine/doctrine-bundle ###
 # Format described at https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url
 # IMPORTANT: You MUST configure your server version, either here or in config/packages/doctrine.yaml
