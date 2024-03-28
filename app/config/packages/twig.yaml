@@ -1,5 +1,6 @@
 twig:
     file_name_pattern: '*.twig'
+    form_themes: ['bootstrap_5_layout.html.twig'] # Themes pour générer des formulaires, si on ne fait pas de thèmes personaliser
 
 when@test:
     twig:

@@ -169,6 +169,8 @@ stop: ## Stop application containers
 
 run: ## run Docker in the background
 	make docker-run
+	@echo "Accès au projet en local sur : http://127.0.0.1:8971/"
+	@echo "Accès au phpmyadmin du projet en local sur : http://127.0.0.1:8080/"
 
 down: ## stop and delete all containers, networks, and volumes associated with a Docker Compose project. Limited to the specific project
 	make docker-down
