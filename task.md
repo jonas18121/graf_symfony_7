@@ -1,1 +1,4 @@
-vidéo stopper : Symfony 7 : L'ORM Doctrine terminer
+vidéo stopper : Symfony 7 : Les formulaire terminer
+
+
+^[a-z0-9]+(?:-[a-z0-9]+)*$
