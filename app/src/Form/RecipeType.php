@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Sequentially;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class RecipeType extends AbstractType
 {
@@ -54,7 +55,9 @@ class RecipeType extends AbstractType
         };
         
         $builder
-            ->add('title', TextType::class)
+            ->add('title', TextType::class, [
+                'empty_data' => ''
+            ])
             ->add('slug', TextType::class, [
                 'required' => false,
                 // 'constraints' => new Sequentially ([
@@ -62,7 +65,9 @@ class RecipeType extends AbstractType
                 //     new Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: "Ce slug n'est pas valide")
                 // ])
             ])
-            ->add('text')
+            ->add('text', TextareaType::class, [
+                'empty_data' => ''
+            ])
             ->add('duration')
             ->add('save', SubmitType::class, [
                 'label' => 'Envoyer'

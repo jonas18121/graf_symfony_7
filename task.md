@@ -1,4 +1,4 @@
-vidéo stopper : Symfony 7 : Les formulaire terminer
+vidéo stopper : Symfony 7 : Valider les données terminer
 
 
 ^[a-z0-9]+(?:-[a-z0-9]+)*$
