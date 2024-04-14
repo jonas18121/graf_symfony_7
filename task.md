@@ -1,4 +1,1 @@
-vidéo stopper : Symfony 7 : Valider les données terminer
-
-
-^[a-z0-9]+(?:-[a-z0-9]+)*$
+vidéo stopper : Symfony 7 : TP: Formulaire de contact 03:00
