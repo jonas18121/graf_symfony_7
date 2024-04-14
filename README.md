@@ -76,6 +76,8 @@ Access to the project's phpmyadmin locally on : http://127.0.0.1:8080/
 - user : root
 - password : ''
 
+Access to the project's MaiDev locally on : http://127.0.0.1:8081/
+
 ### Premier commit sur votre le projet que vous avez préalablement créer
 
 ```ps
