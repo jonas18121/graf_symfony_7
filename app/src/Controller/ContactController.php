@@ -28,20 +28,19 @@ class ContactController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
 
             $email = (new TemplatedEmail())
-            ->from($data->email)
-            ->to('contact@demo.fr')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject('Demande de contact')
-            //->text('Sending emails is fun again!')
-            //->html('<p>See Twig integration for better HTML integration!</p>')
-            ->htmlTemplate('emails/contact.html.twig')
-            ->context(['data' => $data]);
+                ->from($data->email)
+                ->to($data->service)
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject('Demande de contact')
+                //->text('Sending emails is fun again!')
+                //->html('<p>See Twig integration for better HTML integration!</p>')
+                ->htmlTemplate('emails/contact.html.twig')
+                ->context(['data' => $data]);
 
-        $mailer->send($email);
-
+            $mailer->send($email);
 
             // $entityManager->flush();
 

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\DTO\ContactDTO;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,6 +25,13 @@ class ContactType extends AbstractType
             ])
             ->add('message', TextareaType::class, [
                 'empty_data' => 'Non Rempli'
+            ])
+            ->add('service', ChoiceType::class, [
+                'choices'  => [
+                    'Compta' => 'compta@demo.fr',
+                    'Support' => 'support@demo.fr',
+                    'Marketing' => 'marketing@demo.fr',
+                ]
             ])
             ->add('Enregistrer', SubmitType::class)
         ;
