@@ -42,12 +42,9 @@ class ContactController extends AbstractController
 
             $mailer->send($email);
 
-            // $entityManager->flush();
-
             $this->addFlash('success', 'Le mail a bien été envoyé');
             return $this->redirectToRoute('app_contact');
         }
-
 
         return $this->render('contact/contact.html.twig', [
             'form' => $form->createView(),
