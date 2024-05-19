@@ -41,6 +41,8 @@ services:
         restart: always
         networks:
             - dev
+        environment:
+            MAILER_DSN: smtp://maildev:1025
 
     # NODE
     node_app:
@@ -52,6 +54,25 @@ services:
             - './app:/var/www/app'
         user: '1000:1000' 
         restart: always
+        networks:
+            - dev
+
+    # maildev
+    maildev:
+        container_name: graf_symgony_7_maildev
+        image: maildev/maildev
+        restart: always
+        environment:
+            - TZ=Asia/Shanghai
+            - MAILDEV_WEB_PORT=1080
+            - MAILDEV_SMTP_PORT=1025
+        ports:
+            - "8081:1080"
+            - "8025:1025"
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "1m"
         networks:
             - dev
 
