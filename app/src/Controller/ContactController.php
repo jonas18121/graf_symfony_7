@@ -26,24 +26,28 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            try {
+                $email = (new TemplatedEmail())
+                    ->from($data->email)
+                    ->to($data->service)
+                    //->cc('cc@example.com')
+                    //->bcc('bcc@example.com')
+                    //->replyTo('fabien@example.com')
+                    //->priority(Email::PRIORITY_HIGH)
+                    ->subject('Demande de contact')
+                    //->text('Sending emails is fun again!')
+                    //->html('<p>See Twig integration for better HTML integration!</p>')
+                    ->htmlTemplate('emails/contact.html.twig')
+                    ->context(['data' => $data]);
 
-            $email = (new TemplatedEmail())
-                ->from($data->email)
-                ->to($data->service)
-                //->cc('cc@example.com')
-                //->bcc('bcc@example.com')
-                //->replyTo('fabien@example.com')
-                //->priority(Email::PRIORITY_HIGH)
-                ->subject('Demande de contact')
-                //->text('Sending emails is fun again!')
-                //->html('<p>See Twig integration for better HTML integration!</p>')
-                ->htmlTemplate('emails/contact.html.twig')
-                ->context(['data' => $data]);
+                $mailer->send($email);
 
-            $mailer->send($email);
-
-            $this->addFlash('success', 'Le mail a bien été envoyé');
-            return $this->redirectToRoute('app_contact');
+                $this->addFlash('success', 'Le mail a bien été envoyé');
+                return $this->redirectToRoute('app_contact');
+            } 
+            catch (\Exception $exception) {
+                $this->addFlash('danger', 'Impossible d\'envoyé votre email');
+            }            
         }
 
         return $this->render('contact/contact.html.twig', [
