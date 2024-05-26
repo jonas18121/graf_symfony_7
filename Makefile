@@ -26,7 +26,7 @@ endif
 
 # VARIABLES
 SYMFONY_CONSOLE = $(BIN_PHP) bin/console
-APP_NAME = graf_symgony_7
+APP_NAME = graf_symfony_7
 DOMAIN = $(APP_NAME).fr
 ENVIRONMENT_TEST = test
 
@@ -186,10 +186,10 @@ docker-stop: ## Stop application containers
 	docker-compose stop
 
 docker-exec-php: ## Enter into the sh of PHP
-	docker exec -it graf_symgony_7_www sh
+	docker exec -it graf_symfony_7_www sh
 
 docker-exec-node: ## Enter into the sh of Node
-	docker exec -it graf_symgony_7_node sh
+	docker exec -it graf_symfony_7_node sh
 
 docker-run: ## run Docker in the background
 	docker-compose up -d
