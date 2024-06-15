@@ -17,7 +17,6 @@ class RecipeController extends AbstractController
 {
     #[Route('/admin/recettes', name: 'app_admin_recipe_index')]
     public function index(
-        Request $request, 
         RecipeRepository $recipeRepository
     ): Response
     {
