@@ -5,33 +5,52 @@ services:
     # MYSQL
     db:
         image: mysql
-        container_name: graf_symgony_7_mysql
+        container_name: graf_symfony_7_mysql
         restart: always
         volumes:
             - db-data:/var/lib/mysql
         environment:
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            # MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         networks:
             - dev
 
     # PHPMyAdmin
-    phpmyadmin:
-        image: phpmyadmin
-        container_name: graf_symgony_7_phpmyadmin
+    # phpmyadmin:
+    #     image: phpmyadmin
+    #     container_name: graf_symfony_7_phpmyadmin
+    #     restart: always
+    #     depends_on:
+    #         - db
+    #     ports:
+    #         - 8080:80
+    #     environment:
+    #         # PMA_HOST: db
+    #         - MYSQL_USER=${PMA_USER}
+    #         - MYSQL_PASSWORD=${PMA_PASSWORD}
+    #         - PMA_HOST=db
+    #         - UPLOAD_LIMIT=300M
+    #     networks:
+    #         - dev
+
+    adminer:
+        image: adminer
+        container_name: graf_symfony_7_adminer
         restart: always
         depends_on:
             - db
         ports:
-            - 8080:80
-        environment:
-            PMA_HOST: db
+            - "8421:8080"
         networks:
             - dev
 
     # APPLICATION (PHP : Symfony App)
     www_app:
         build: php
-        container_name: graf_symgony_7_www
+        container_name: graf_symfony_7_www
         ports:
             - "8971:80"
         volumes:
@@ -46,7 +65,7 @@ services:
 
     # NODE
     node_app:
-        container_name: graf_symgony_7_node
+        container_name: graf_symfony_7_node
         build:
             context: .
             dockerfile: node/Dockerfile
@@ -59,7 +78,7 @@ services:
 
     # maildev
     maildev:
-        container_name: graf_symgony_7_maildev
+        container_name: graf_symfony_7_maildev
         image: maildev/maildev
         restart: always
         environment:

@@ -31,6 +31,21 @@ RUN docker-php-ext-configure intl
 RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip calendar dom mbstring zip gd xsl
 RUN pecl install apcu && docker-php-ext-enable apcu
 
+# Mettre à jour les paquets et installer les dépendances nécessaires
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    libicu-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libmariadb-dev-compat \
+    libmariadb-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) pdo pdo_pgsql 
+
 # COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 
 RUN usermod -u 1000 www-data
