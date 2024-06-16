@@ -2,17 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\RecipeRepository;
-use App\Validator\BanWord;
+use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\DBAL\Types\Types;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\BanWord;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: RecipeRepository::class)]
-#[UniqueEntity('title')]
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[UniqueEntity('name')]
 #[UniqueEntity('slug')]
-class Recipe
+class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,18 +23,14 @@ class Recipe
     #[ORM\Column(length: 255)]
     #[Assert\Length(min: 5)]
     #[BanWord()]
-    private ?string $title = null;
+    private string $name = '';
 
     #[ORM\Column(length: 255)]
     #[Assert\Sequentially([
         new Assert\Length(min: 5),
         new Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: "Ce slug n'est pas valide")
     ])]
-    private ?string $slug = null;
-
-    #[ORM\Column(type: Types::TEXT)]
-    #[Assert\Length(min: 5)]
-    private ?string $text = null;
+    private string $slug = '';
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -41,33 +38,32 @@ class Recipe
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column(nullable: true)]
-    #[Assert\Positive()]
-    #[Assert\NotBlank()]
-    #[Assert\LessThan(value: 1440)]
-    private ?int $duration = null;
+    #[ORM\OneToMany(targetEntity: Recipe::class, mappedBy: 'category', cascade: ['remove'])]
+    private Collection $recipes;
 
-    #[ORM\ManyToOne(inversedBy: 'recipes', cascade: ['persit'])]
-    private ?Category $category = null;
+    public function __construct()
+    {
+        $this->recipes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getName(): string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): static
+    public function setName(string $name): static
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -75,18 +71,6 @@ class Recipe
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    public function getText(): ?string
-    {
-        return $this->text;
-    }
-
-    public function setText(string $text): static
-    {
-        $this->text = $text;
 
         return $this;
     }
@@ -115,26 +99,32 @@ class Recipe
         return $this;
     }
 
-    public function getDuration(): ?int
+    /**
+     * @return Collection<int, Recipe>
+     */
+    public function getRecipes(): Collection
     {
-        return $this->duration;
+        return $this->recipes;
     }
 
-    public function setDuration(?int $duration): static
+    public function addRecipe(Recipe $recipe): static
     {
-        $this->duration = $duration;
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
+            $recipe->setCategory($this);
+        }
 
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function removeRecipe(Recipe $recipe): static
     {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): static
-    {
-        $this->category = $category;
+        if ($this->recipes->removeElement($recipe)) {
+            // set the owning side to null (unless already changed)
+            if ($recipe->getCategory() === $this) {
+                $recipe->setCategory(null);
+            }
+        }
 
         return $this;
     }
