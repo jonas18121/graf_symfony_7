@@ -1,1 +1,1 @@
-vidéo stopper : Symfony 7 : TP : Catégorie - 06:00
+vidéo stopper : Symfony 7 : TP : Catégorie terminé
