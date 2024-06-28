@@ -2,16 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\RecipeRepository;
 use App\Validator\BanWord;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\RecipeRepository;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Entity\File as EmbeddedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[UniqueEntity('title')]
 #[UniqueEntity('slug')]
+#[Vich\Uploadable]
 class Recipe
 {
     #[ORM\Id]
@@ -47,8 +51,15 @@ class Recipe
     #[Assert\LessThan(value: 1440)]
     private ?int $duration = null;
 
-    #[ORM\ManyToOne(inversedBy: 'recipes', cascade: ['persit'])]
+    #[ORM\ManyToOne(inversedBy: 'recipes', cascade: ['persist'])]
     private ?Category $category = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $thumbnail = null;
+
+    #[Vich\UploadableField(mapping: 'recipes', fileNameProperty: 'thumbnail')]
+    #[Assert\Image()]
+    private ?File $thumbnailFile = null;
 
     public function getId(): ?int
     {
@@ -135,6 +146,46 @@ class Recipe
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(?string $thumbnail): static
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of thumbnailFile
+     * 
+     */ 
+    public function getThumbnailFile(): ?File
+    {
+        return $this->thumbnailFile;
+    }
+
+    /**
+     * Set the value of thumbnailFile
+     *
+     */ 
+    public function setThumbnailFile(File $thumbnailFile): self
+    {
+        $this->thumbnailFile = $thumbnailFile;
+
+        // VERY IMPORTANT:
+        // Il est obligatoire qu'au moins un champ change si vous utilisez Doctrine,
+        // sinon les écouteurs d'événement ne seront pas appelés et le fichier est perdu
+        if ($thumbnailFile) {
+            // si 'updatedAt' n'est pas défini dans votre entité, utilisez une autre propriété
+            $this->updatedAt = new \DateTimeImmutable();
+        }
 
         return $this;
     }

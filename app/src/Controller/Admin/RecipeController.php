@@ -3,15 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Recipe;
+use DateTimeImmutable;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class RecipeController extends AbstractController
 {
@@ -65,14 +67,13 @@ class RecipeController extends AbstractController
         Recipe $recipe
     ): Response
     {
+
         $form = $this->createForm(RecipeType::class, $recipe);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-
-            $recipe->setUpdatedAt(new DateTimeImmutable());
-
+            
             $entityManager->flush();
 
             $this->addFlash('success', 'La recette a bien été modifié');
