@@ -38,7 +38,7 @@ class Category
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(targetEntity: Recipe::class, mappedBy: 'category', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Recipe::class, cascade: ['remove'], mappedBy: 'category')]
     private Collection $recipes;
 
     public function __construct()

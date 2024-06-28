@@ -5,6 +5,11 @@
 {% block body %}
     <h1>Modifier {{ recipe.title }}</h1>
 
+    <p>
+        {# <img src="/images/recipes/{{ recipe.thumbnail }}" alt="{{ recipe.thumbnail }}"> #}
+        <img src="{{ vich_uploader_asset(recipe, 'thumbnailFile') }}" alt="{{ recipe.thumbnail }}">
+    </p>
+
     {{ form_start(form) }}
         <div class="d-flex">
             {{ form_row(form.title) }}
