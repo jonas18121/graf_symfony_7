@@ -13,16 +13,21 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
+#[IsGranted('ROLE_ADMIN')]
 class RecipeController extends AbstractController
 {
     #[Route('/admin/recettes', name: 'app_admin_recipe_index')]
+    #[IsGranted('ROLE_USER')]
     public function index(
         RecipeRepository $recipeRepository
     ): Response
     {
-        $duration = 90;
+        // $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $duration = 190;
         $limit = 10;
 
         return $this->render('admin/recipe/index.html.twig', [
