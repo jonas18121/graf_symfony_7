@@ -2,20 +2,22 @@
 
 namespace App\Controller\Admin;
 
+use DateTimeImmutable;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategoryController extends AbstractController
 {
     #[Route('/admin/category', name: 'app_admin_category_index')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(
         CategoryRepository $categoryRepository
     ): Response
