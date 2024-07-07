@@ -9,14 +9,18 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Titre</th>
-                <th>Catégorie</th>
+                <th>{{ knp_pagination_sortable(recipes, 'ID', 'r.id') }}</th>
+                <th>{{ knp_pagination_sortable(recipes, 'Titre', 'r.title') }}</th>
+                <th>{{ knp_pagination_sortable(recipes, 'Catégorie', 'c.name') }}</th>
                 <th style="width: 200px">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for recipe in recipes %}
             <tr>
+                <td>
+                    <p>{{ recipe.id }}</p>
+                </td>
                 <td>
                     <a href="{{ url('app_recipe_show', {id: recipe.id, slug: recipe.slug}) }}">{{ recipe.title }}</a>
                 </td>
@@ -37,4 +41,25 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {# <div class="d-flex">
+        {% if page > 1 %}
+            <a href="{{ path('app_admin_recipe_index', {page: page - 1}) }}" class="btn btn-secondary me-1">Page précédente</a>
+        {% endif %}
+
+        {% if page < maxPage %}
+            <a href="{{ path('app_admin_recipe_index', {page: page + 1}) }}" class="btn btn-secondary">Page suivante</a>
+        {% endif %}
+    </div> #}
+
+    {# display navigation #}
+    <div class="navigation">
+        {{ 
+            knp_pagination_render(recipes, null, {}, {
+                'align': 'right',
+                'size': 'large',
+                'rounded': true,
+            }) 
+        }}
+    </div>
 {% endblock %}
