@@ -20,18 +20,18 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 class RecipeController extends AbstractController
 {
     #[Route('/admin/recettes', name: 'app_admin_recipe_index')]
-    #[IsGranted('ROLE_USER')]
     public function index(
-        RecipeRepository $recipeRepository
+        RecipeRepository $recipeRepository,
+        Request $request
     ): Response
     {
-        // $this->denyAccessUnlessGranted('ROLE_USER');
+        /** @var int $page */
+        $page = $request->query->getInt('page', 1);
 
-        $duration = 190;
-        $limit = 10;
+        $recipes = $recipeRepository->paginateRecipes($page);
 
         return $this->render('admin/recipe/index.html.twig', [
-            'recipes' => $recipeRepository->findWithDurationLowerThan($duration, $limit),
+            'recipes' => $recipes
         ]);
     }
 
