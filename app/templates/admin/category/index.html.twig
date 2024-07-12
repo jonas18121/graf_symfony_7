@@ -10,6 +10,7 @@
         <thead>
             <tr>
                 <th>Titre</th>
+                <th>Recettes</th>
                 <th style="width: 200px">Actions</th>
             </tr>
         </thead>
@@ -19,6 +20,9 @@
                 <td>
                     {# <a href="{{ url('app_category_show', {id: category.id, slug: category.slug}) }}">{{ category.name }}</a> #}
                     <p>{{ category.name }}</p>
+                </td>
+                <td>
+                    <p>{{ category.count }}</p>
                 </td>
                 <td>
                     <div class="d-flex gap-1">
