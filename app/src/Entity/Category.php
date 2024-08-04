@@ -23,6 +23,7 @@ class Category
     #[ORM\Column(length: 255)]
     #[Assert\Length(min: 5)]
     #[BanWord()]
+    #[Groups('recipes:show')]
     private string $name = '';
 
     #[ORM\Column(length: 255)]
