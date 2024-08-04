@@ -1,1 +1,1 @@
-vidéo stopper : Symfony 7 : ORM, relation ManyToOne terminé
+vidéo stopper : Symfony 7 : Asset Mapper terminé
